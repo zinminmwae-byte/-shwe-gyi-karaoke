@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shwe Gyi Karaoke</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #101827;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background: linear-gradient(135deg, #7c2d12, #b45309);
+    text-align: center;
+    padding: 28px 10px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 27px;
+}
+
+header p {
+    margin: 8px 0 0;
+    color: #ffedd5;
+    font-size: 14px;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+}
+
+.section {
+    background: #1f2937;
+    padding: 22px 16px;
+    margin: 22px 0;
+    border-radius: 15px;
+    border: 1px solid #374151;
+}
+
+.section h2 {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+input {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #4b5563;
+    border-radius: 10px;
+    background: white;
+    color: #111827;
+    font-size: 16px;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #f59e0b;
+    color: #111827;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #9ca3af;
+    font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎤 ရွှေကျီး Karaoke</h1>
+    <p>သင်ကြိုက်နှစ်သက်သော Karaoke သီချင်းများ ရှာဖွေပါ</p>
+</header>
+
+<div class="container">
+
+    <div class="section">
+
+        <h2>🎵 သီချင်းအမည် ရှာရန်</h2>
+
+        <input
+            type="text"
+            id="songName"
+            placeholder="သီချင်းအမည် ရိုက်ထည့်ပါ"
+            onkeydown="if(event.key==='Enter') searchSong()"
+        >
+
+        <button type="button" onclick="searchSong()">
+            🔍 သီချင်းရှာမယ်
+        </button>
+
+    </div>
+
+    <div class="section">
+
+        <h2>🎤 အဆိုတော်အမည် ရှာရန်</h2>
+
+        <input
+            type="text"
+            id="artistName"
+            placeholder="အဆိုတော်အမည် ရိုက်ထည့်ပါ"
+            onkeydown="if(event.key==='Enter') searchArtist()"
+        >
+
+        <button type="button" onclick="searchArtist()">
+            🔍 အဆိုတော်ရှာမယ်
+        </button>
+
+    </div>
+
+</div>
+
+<footer>
+    Shwe Gyi Karaoke © 2026
+</footer>
+
+<script>
+
+function searchSong() {
+
+    const song = document
+        .getElementById("songName")
+        .value.trim();
+
+    if (song === "") {
+        alert("သီချင်းအမည် ရိုက်ထည့်ပေးပါ");
+        return;
+    }
+
+    const searchText = song + " karaoke";
+
+    const url =
+        "https://www.youtube.com/results?search_query=" +
+        encodeURIComponent(searchText);
+
+    window.location.href = url;
+}
+
+function searchArtist() {
+
+    const artist = document
+        .getElementById("artistName")
+        .value.trim();
+
+    if (artist === "") {
+        alert("အဆိုတော်အမည် ရိုက်ထည့်ပေးပါ");
+        return;
+    }
+
+    const searchText = artist + " karaoke songs";
+
+    const url =
+        "https://www.youtube.com/results?search_query=" +
+        encodeURIComponent(searchText);
+
+    window.location.href = url;
+}
+
+</script>
+
+</body>
+</html>
