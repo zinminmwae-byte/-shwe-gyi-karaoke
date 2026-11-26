@@ -30,9 +30,10 @@ jobs:
           gradle-version: '8.9'
 
       - name: Setup Android SDK
-            - name: Accept Android licenses
-        run: yes | sdkmanager --licenses
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
+        with:
+          accept-android-sdk-licenses: 'true'
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
 
       - name: Build APK
         run: gradle assembleDebug
@@ -42,4 +43,4 @@ jobs:
         with:
           name: Shwe-Gyi-Karaoke-APK
           path: app/build/outputs/apk/debug/app-debug.apk
-
+          
