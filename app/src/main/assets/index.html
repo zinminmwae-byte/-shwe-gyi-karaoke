@@ -18,6 +18,44 @@ body {
     font-family: Arial, sans-serif;
 }
 
+#introScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: radial-gradient(circle, #34445e, #101827 75%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: opacity 1s ease;
+}
+
+#introScreen h1 {
+    color: #f8d58a;
+    font-size: 48px;
+    margin: 10px;
+    text-shadow: 0 0 20px #d99b36;
+}
+
+#introScreen p {
+    color: white;
+    font-size: 27px;
+    margin: 10px;
+}
+
+.musicNote {
+    color: #f8d58a;
+    font-size: 30px;
+    letter-spacing: 12px;
+    animation: floatMusic 1.5s infinite alternate;
+}
+
+@keyframes floatMusic {
+    from { transform: translateY(0); }
+    to { transform: translateY(-12px); }
+}
+
 header {
     background: linear-gradient(135deg, #7c2d12, #b45309);
     text-align: center;
@@ -91,6 +129,14 @@ footer {
 
 <body>
 
+<!-- Welcome Intro -->
+<div id="introScreen">
+    <div class="musicNote">♪ ♫ ♪</div>
+    <h1>ရွှေကျီး</h1>
+    <p>ဆိုမယ် ပျော်မယ်</p>
+    <div class="musicNote">♫ ♪ ♫</div>
+</div>
+
 <header>
     <h1>🎤 ရွှေကျီး Karaoke</h1>
     <p>သင်ကြိုက်နှစ်သက်သော Karaoke သီချင်းများ ရှာဖွေပါ</p>
@@ -99,7 +145,6 @@ footer {
 <div class="container">
 
     <div class="section">
-
         <h2>🎵 သီချင်းအမည် ရှာရန်</h2>
 
         <input
@@ -112,11 +157,9 @@ footer {
         <button type="button" onclick="searchSong()">
             🔍 သီချင်းရှာမယ်
         </button>
-
     </div>
 
     <div class="section">
-
         <h2>🎤 အဆိုတော်အမည် ရှာရန်</h2>
 
         <input
@@ -129,7 +172,6 @@ footer {
         <button type="button" onclick="searchArtist()">
             🔍 အဆိုတော်ရှာမယ်
         </button>
-
     </div>
 
 </div>
@@ -140,8 +182,68 @@ footer {
 
 <script>
 
-function searchSong() {
+// Intro 5 seconds
+window.addEventListener("load", function() {
+    const intro = document.getElementById("introScreen");
 
+    playIntroMusic();
+
+    setTimeout(function() {
+        intro.style.opacity = "0";
+
+        setTimeout(function() {
+            intro.style.display = "none";
+        }, 1000);
+
+    }, 5000);
+});
+
+// Soft piano-like intro melody
+function playIntroMusic() {
+    try {
+        const AudioContext =
+            window.AudioContext || window.webkitAudioContext;
+
+        if (!AudioContext) return;
+
+        const audio = new AudioContext();
+
+        audio.resume();
+
+        const notes = [
+            523.25, 659.25, 783.99,
+            659.25, 587.33, 659.25
+        ];
+
+        notes.forEach(function(freq, index) {
+            const start = audio.currentTime + index * 0.65;
+
+            const oscillator = audio.createOscillator();
+            const gain = audio.createGain();
+
+            oscillator.type = "sine";
+            oscillator.frequency.value = freq;
+
+            gain.gain.setValueAtTime(0, start);
+            gain.gain.linearRampToValueAtTime(0.12, start + 0.04);
+            gain.gain.exponentialRampToValueAtTime(
+                0.001, start + 0.55
+            );
+
+            oscillator.connect(gain);
+            gain.connect(audio.destination);
+
+            oscillator.start(start);
+            oscillator.stop(start + 0.6);
+        });
+
+    } catch (error) {
+        console.log("Intro music unavailable");
+    }
+}
+
+// Search by song title
+function searchSong() {
     const song = document
         .getElementById("songName")
         .value.trim();
@@ -160,8 +262,8 @@ function searchSong() {
     window.location.href = url;
 }
 
+// Search by singer name
 function searchArtist() {
-
     const artist = document
         .getElementById("artistName")
         .value.trim();
